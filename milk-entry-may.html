@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🥛 Milk Entry – May</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans:wght@400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+/* ── Variables ── */
+:root {
+  --bg:       #0f1923;
+  --surface:  #162030;
+  --card:     #1c2d3f;
+  --border:   #263d55;
+  --accent:   #00c6ff;
+  --accent2:  #0077b6;
+  --gold:     #f4c542;
+  --green:    #2ecc71;
+  --red:      #e74c3c;
+  --text:     #d8eaf7;
+  --muted:    #7a9ab5;
+  --head-bg:  #0d3a5c;
+  --row-alt:  #162535;
+  --font-d:   'Rajdhani', sans-serif;
+  --font-b:   'Noto Sans', sans-serif;
+  --font-m:   'Share Tech Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  min-height: 100vh;
+  overflow-x: auto;
+}
+
+/* ── BG effect ── */
+body::before {
+  content:'';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(0,198,255,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 90%, rgba(0,119,182,.08) 0%, transparent 55%);
+}
+
+/* ── Wrapper ── */
+.wrapper { position: relative; z-index: 1; padding: 0 12px 48px; }
+
+/* ── Header ── */
+.site-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 8px 16px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 18px;
+  flex-wrap: wrap; gap: 12px;
+}
+.site-title {
+  display: flex; align-items: center; gap: 12px;
+}
+.site-title .icon {
+  width: 46px; height: 46px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; box-shadow: 0 4px 16px rgba(0,198,255,.3);
+}
+.site-title h1 {
+  font-family: var(--font-d); font-size: 1.9rem; font-weight: 700;
+  color: #fff; letter-spacing: .04em; line-height: 1;
+}
+.site-title p { font-size: .75rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 3px; }
+
+/* ── Rate bar ── */
+.control-bar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.rate-group {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 8px 14px;
+}
+.rate-group label { font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+.rate-group input {
+  width: 72px; background: transparent; border: none; outline: none;
+  font-family: var(--font-m); font-size: 1.1rem; color: var(--gold);
+  font-weight: 600;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; border-radius: 9px; border: none; cursor: pointer;
+  font-family: var(--font-d); font-size: .95rem; font-weight: 600;
+  letter-spacing: .04em; transition: transform .15s, box-shadow .15s, opacity .15s;
+}
+.btn:hover { transform: translateY(-2px); opacity: .92; }
+.btn:active { transform: translateY(0); }
+.btn-save    { background: linear-gradient(135deg,#0077b6,#00c6ff); color: #fff; box-shadow: 0 3px 14px rgba(0,198,255,.3); }
+.btn-clear   { background: transparent; color: var(--red); border: 1.5px solid var(--red); }
+.btn-dl      { background: linear-gradient(135deg,#1a7a3e,#2ecc71); color: #fff; box-shadow: 0 3px 14px rgba(46,204,113,.25); }
+.btn-month   { background: var(--card); border: 1.5px solid var(--border); color: var(--text); padding: 8px 14px; font-size: .82rem; }
+.btn-month.active { background: var(--accent2); border-color: var(--accent); color: #fff; }
+
+/* ── Month selector ── */
+.month-row {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;
+}
+
+/* ── Stats bar ── */
+.stats-bar {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px;
+}
+.stat-chip {
+  background: var(--card); border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 10px 20px; min-width: 130px; text-align: center;
+}
+.stat-chip .sv { font-family: var(--font-m); font-size: 1.3rem; color: var(--accent); font-weight: 600; }
+.stat-chip .sl { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; margin-top: 3px; }
+
+/* ── Table container ── */
+.table-scroll {
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 6px 32px rgba(0,0,0,.4);
+}
+
+table {
+  border-collapse: collapse;
+  width: max-content;
+  min-width: 100%;
+  background: var(--surface);
+}
+
+/* ── Header row ── */
+thead tr th {
+  background: var(--head-bg);
+  color: var(--accent);
+  font-family: var(--font-d);
+  font-size: .82rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 10px 6px; border: 1px solid var(--border);
+  white-space: nowrap; position: sticky; top: 0; z-index: 2;
+}
+thead tr th:first-child { position: sticky; left: 0; z-index: 3; background: var(--head-bg); }
+thead tr th:nth-child(2) { position: sticky; left: 40px; z-index: 3; background: var(--head-bg); }
+
+/* ── Body rows ── */
+tbody tr { transition: background .15s; }
+tbody tr:nth-child(even) { background: var(--row-alt); }
+tbody tr:hover { background: rgba(0,198,255,.05); }
+
+tbody td {
+  border: 1px solid var(--border);
+  padding: 4px 4px; text-align: center;
+  font-size: .84rem; color: var(--text);
+  white-space: nowrap;
+}
+tbody td:first-child {
+  position: sticky; left: 0; z-index: 1;
+  background: var(--head-bg); color: var(--muted); font-size: .78rem;
+  font-family: var(--font-m); width: 38px;
+}
+tbody tr:nth-child(even) td:first-child { background: #0c2e48; }
+tbody td:nth-child(2) {
+  position: sticky; left: 38px; z-index: 1;
+  background: var(--surface); font-family: var(--font-d); font-size: .9rem;
+  font-weight: 600; color: #fff; padding: 4px 10px; text-align: left;
+  min-width: 80px;
+}
+tbody tr:nth-child(even) td:nth-child(2) { background: var(--row-alt); }
+
+/* ── Inputs ── */
+td input[type=text] {
+  width: 36px; height: 26px; text-align: center;
+  font-family: var(--font-m); font-size: .88rem; font-weight: 600;
+  color: var(--gold); background: transparent; border: none; outline: none;
+  border-radius: 4px; transition: background .15s;
+}
+td input[type=text]:focus {
+  background: rgba(0,198,255,.12); color: #fff;
+}
+
+/* ── Total / Amount cols ── */
+.col-total { color: var(--green) !important; font-family: var(--font-m) !important; font-weight: 600 !important; min-width: 54px; }
+.col-amount { color: var(--gold) !important; font-family: var(--font-m) !important; font-weight: 600 !important; min-width: 80px; }
+
+/* ── Grand total row ── */
+.grand-row td {
+  background: #0d3a5c !important;
+  font-family: var(--font-d) !important;
+  font-size: .95rem !important; font-weight: 700 !important;
+  color: var(--accent) !important;
+}
+.grand-row .col-total, .grand-row .col-amount {
+  font-size: 1rem !important; color: var(--gold) !important;
+}
+
+/* ── Day Total rows ── */
+.day-litres-row td {
+  background: #0a2e1a !important;
+  font-family: var(--font-m) !important;
+  font-size: .82rem !important; font-weight: 700 !important;
+  color: var(--green) !important;
+  border-top: 2px solid #1a6b3a !important;
+}
+.day-litres-row td:first-child,
+.day-litres-row td:nth-child(2) {
+  color: var(--green) !important; font-family: var(--font-d) !important;
+  font-size: .82rem !important; text-align: left !important; padding-left: 8px !important;
+}
+.day-amount-row td {
+  background: #2a1a00 !important;
+  font-family: var(--font-m) !important;
+  font-size: .78rem !important; font-weight: 700 !important;
+  color: var(--gold) !important;
+  border-bottom: 2px solid #6b4a00 !important;
+}
+.day-amount-row td:first-child,
+.day-amount-row td:nth-child(2) {
+  color: var(--gold) !important; font-family: var(--font-d) !important;
+  font-size: .78rem !important; text-align: left !important; padding-left: 8px !important;
+}
+
+/* ── Sunday highlight ── */
+.sunday-col { background: rgba(231,76,60,.06) !important; }
+thead th.sunday-col { color: #ff8080 !important; }
+
+/* ── Today highlight ── */
+.today-col { background: rgba(0,198,255,.08) !important; }
+thead th.today-col { color: #fff !important; background: #005f8a !important; }
+
+/* ── Toast ── */
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--card); color: var(--text); border: 1.5px solid var(--accent);
+  border-radius: 12px; padding: 13px 28px; font-size: .9rem; font-weight: 500;
+  box-shadow: 0 6px 28px rgba(0,0,0,.5); z-index: 999;
+  transition: transform .3s cubic-bezier(.175,.885,.32,1.275);
+  pointer-events: none; white-space: nowrap;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+@media (max-width: 600px) {
+  .site-title h1 { font-size: 1.4rem; }
+  .btn { padding: 8px 12px; font-size: .85rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="site-header">
+    <div class="site-title">
+      <div class="icon">🥛</div>
+      <div>
+        <h1>MilkEntry Pro</h1>
+        <p>Daily Dairy Management System</p>
+      </div>
+    </div>
+    <div class="control-bar">
+      <div class="rate-group">
+        <label>Rate ₹</label>
+        <input type="number" id="rateInput" value="60" min="0" oninput="onRateChange()"/>
+      </div>
+      <button class="btn btn-save"  onclick="saveData()">💾 Save</button>
+      <button class="btn btn-dl"    onclick="downloadCSV()">⬇ Download</button>
+      <button class="btn btn-clear" onclick="clearMonth()">🗑 Clear</button>
+    </div>
+  </div>
+
+  <!-- Month selector -->
+  <div class="month-row" id="monthRow"></div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-chip"><div class="sv" id="statTotal">0</div><div class="sl">Total Litres</div></div>
+    <div class="stat-chip"><div class="sv" id="statAmount">₹0</div><div class="sl">Total Amount</div></div>
+    <div class="stat-chip"><div class="sv" id="statMembers">0</div><div class="sl">Members</div></div>
+    <div class="stat-chip"><div class="sv" id="statDays">0</div><div class="sl">Active Days</div></div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-scroll">
+    <table id="milkTable">
+      <thead><tr id="headerRow"></tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+    <button class="btn btn-save"  onclick="saveData()">💾 Save Data</button>
+    <button class="btn btn-dl"    onclick="downloadCSV()">⬇ Download CSV</button>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+/* ─────────────────────────────────────────────
+   CONFIG
+───────────────────────────────────────────── */
+const NAMES = [
+  "A146","A144","A073","A076","A051","A042","A024","A025",
+  "B036","C034","C026","D153","D135","D136","D121",
+  "E044","E045","F086","G131","G095","G073",
+  "I113","I051","L026","L105","N145","N084","N086","N034",
+  "O042","O043","Q072","Q102","S044","S065",
+  "T152","T065","T031","T034","T035",
+  "U021","U053","U095","U075","N083","SIVAN","PERMAL",
+  "O043","D133","FLAT"
+];
+
+const MONTHS = [
+  {name:"January",  days:31, num:0},
+  {name:"February", days:28, num:1},
+  {name:"March",    days:31, num:2},
+  {name:"April",    days:30, num:3},
+  {name:"May",      days:31, num:4},
+  {name:"June",     days:30, num:5},
+  {name:"July",     days:31, num:6},
+  {name:"August",   days:31, num:7},
+  {name:"September",days:30, num:8},
+  {name:"October",  days:31, num:9},
+  {name:"November", days:30, num:10},
+  {name:"December", days:31, num:11}
+];
+
+/* ─────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────── */
+let currentMonthIdx = 4; // May default
+let currentYear = new Date().getFullYear();
+
+function storageKey(mi) { return `milkData_${MONTHS[mi].name}_${currentYear}`; }
+function getData(mi)     { return JSON.parse(localStorage.getItem(storageKey(mi))) || {}; }
+function setData(mi, d)  { localStorage.setItem(storageKey(mi), JSON.stringify(d)); }
+
+/* ─────────────────────────────────────────────
+   BUILD UI
+───────────────────────────────────────────── */
+function buildMonthButtons() {
+  const row = document.getElementById("monthRow");
+  row.innerHTML = "";
+  MONTHS.forEach((m, i) => {
+    const b = document.createElement("button");
+    b.className = "btn btn-month" + (i === currentMonthIdx ? " active" : "");
+    b.textContent = m.name.slice(0,3);
+    b.onclick = () => { currentMonthIdx = i; buildAll(); };
+    row.appendChild(b);
+  });
+}
+
+function buildAll() {
+  buildMonthButtons();
+  buildTable();
+  recalcAll();
+}
+
+function buildTable() {
+  const mo = MONTHS[currentMonthIdx];
+  const days = mo.days;
+  const year = currentYear;
+  const today = new Date();
+
+  // Header
+  const hr = document.getElementById("headerRow");
+  hr.innerHTML = "";
+  const addTH = (text, cls="") => {
+    const th = document.createElement("th");
+    th.textContent = text; if(cls) th.className = cls; hr.appendChild(th);
+  };
+  addTH("S.No"); addTH("Name");
+  for (let d = 1; d <= days; d++) {
+    const dow = new Date(year, currentMonthIdx, d).getDay();
+    const isSun = dow === 0;
+    const isToday = (today.getFullYear()===year && today.getMonth()===currentMonthIdx && today.getDate()===d);
+    addTH(d, (isToday ? "today-col " : "") + (isSun ? "sunday-col" : ""));
+  }
+  addTH("Total"); addTH("Amount ₹");
+
+  // Body
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+  const data = getData(currentMonthIdx);
+
+  NAMES.forEach((name, idx) => {
+    const tr = document.createElement("tr");
+
+    const tdN = document.createElement("td"); tdN.textContent = idx+1; tr.appendChild(tdN);
+    const tdName = document.createElement("td"); tdName.textContent = name; tr.appendChild(tdName);
+
+    for (let d = 0; d < days; d++) {
+      const dow = new Date(year, currentMonthIdx, d+1).getDay();
+      const isToday = (today.getFullYear()===year && today.getMonth()===currentMonthIdx && today.getDate()===(d+1));
+      const td = document.createElement("td");
+      if(isToday) td.classList.add("today-col");
+      if(dow===0) td.classList.add("sunday-col");
+
+      const inp = document.createElement("input");
+      inp.type = "text";
+      inp.value = data[name+"_"+d] || "";
+      inp.dataset.name = name;
+      inp.dataset.day  = d;
+      inp.oninput = function() { onCellInput(this); };
+      td.appendChild(inp);
+      tr.appendChild(td);
+    }
+
+    const tdTot = document.createElement("td"); tdTot.className="col-total"; tdTot.textContent="0"; tr.appendChild(tdTot);
+    const tdAmt = document.createElement("td"); tdAmt.className="col-amount"; tdAmt.textContent="₹0"; tr.appendChild(tdAmt);
+
+    tbody.appendChild(tr);
+  });
+
+  // Grand total row
+  const gtr = document.createElement("tr");
+  gtr.className = "grand-row";
+  const gtd = document.createElement("td"); gtd.colSpan = 2+days; gtd.textContent="GRAND TOTAL"; gtr.appendChild(gtd);
+  const gTot = document.createElement("td"); gTot.className="col-total"; gTot.id="grandLitres"; gTot.textContent="0"; gtr.appendChild(gTot);
+  const gAmt = document.createElement("td"); gAmt.className="col-amount"; gAmt.id="grandAmount"; gAmt.textContent="₹0"; gtr.appendChild(gAmt);
+  tbody.appendChild(gtr);
+
+  // Day-wise Litres total row
+  const dlr = document.createElement("tr");
+  dlr.className = "day-litres-row"; dlr.id = "dayLitresRow";
+  const dlLabel1 = document.createElement("td"); dlLabel1.textContent = "L"; dlr.appendChild(dlLabel1);
+  const dlLabel2 = document.createElement("td"); dlLabel2.textContent = "Day Litres"; dlr.appendChild(dlLabel2);
+  for (let d = 0; d < days; d++) {
+    const td = document.createElement("td"); td.id = "dl_"+d; td.textContent = "0"; dlr.appendChild(td);
+  }
+  const dlBlank1 = document.createElement("td"); dlBlank1.textContent = ""; dlr.appendChild(dlBlank1);
+  const dlBlank2 = document.createElement("td"); dlBlank2.textContent = ""; dlr.appendChild(dlBlank2);
+  tbody.appendChild(dlr);
+
+  // Day-wise Amount total row
+  const dar = document.createElement("tr");
+  dar.className = "day-amount-row"; dar.id = "dayAmountRow";
+  const daLabel1 = document.createElement("td"); daLabel1.textContent = "₹"; dar.appendChild(daLabel1);
+  const daLabel2 = document.createElement("td"); daLabel2.textContent = "Day Amount"; dar.appendChild(daLabel2);
+  for (let d = 0; d < days; d++) {
+    const td = document.createElement("td"); td.id = "da_"+d; td.textContent = "0"; dar.appendChild(td);
+  }
+  const daBlank1 = document.createElement("td"); daBlank1.textContent = ""; dar.appendChild(daBlank1);
+  const daBlank2 = document.createElement("td"); daBlank2.textContent = ""; dar.appendChild(daBlank2);
+  tbody.appendChild(dar);
+}
+
+/* ─────────────────────────────────────────────
+   CALCULATION
+───────────────────────────────────────────── */
+function onCellInput(el) {
+  const val = el.value.trim();
+  if (val !== "" && !/^\d*\.?\d*$/.test(val)) { el.value = ""; return; }
+
+  const name = el.dataset.name;
+  const day  = el.dataset.day;
+  autoSave(name, day, val);
+  recalcRow(el.closest("tr"), name);
+  recalcGrand();
+  updateStats();
+}
+
+function recalcRow(tr, name) {
+  const rate = getRate();
+  const inputs = tr.querySelectorAll("input[type=text]");
+  let total = 0;
+  inputs.forEach(i => { const v = parseFloat(i.value); if (!isNaN(v)) total += v; });
+  tr.querySelector(".col-total").textContent = total % 1 === 0 ? total : total.toFixed(2);
+  tr.querySelector(".col-amount").textContent = "₹" + (total * rate).toFixed(0);
+}
+
+function recalcAll() {
+  document.querySelectorAll("#tableBody tr:not(.grand-row)").forEach(tr => {
+    const nameCell = tr.querySelector("td:nth-child(2)");
+    if (nameCell) recalcRow(tr, nameCell.textContent);
+  });
+  recalcGrand();
+  updateStats();
+}
+
+function recalcGrand() {
+  const mo = MONTHS[currentMonthIdx];
+  const days = mo.days;
+  const rate = getRate();
+
+  // Per-day column totals
+  for (let d = 0; d < days; d++) {
+    let dayTotal = 0;
+    document.querySelectorAll(`input[data-day="${d}"]`).forEach(inp => {
+      const v = parseFloat(inp.value); if (!isNaN(v)) dayTotal += v;
+    });
+    const dlCell = document.getElementById("dl_"+d);
+    const daCell = document.getElementById("da_"+d);
+    if (dlCell) dlCell.textContent = dayTotal > 0 ? (dayTotal % 1 === 0 ? dayTotal : dayTotal.toFixed(2)) : "";
+    if (daCell) daCell.textContent = dayTotal > 0 ? (dayTotal * rate).toFixed(0) : "";
+  }
+
+  // Grand total
+  const totals = document.querySelectorAll(".col-total:not(.grand-row .col-total)");
+  let grand = 0;
+  totals.forEach(t => { grand += parseFloat(t.textContent) || 0; });
+  document.getElementById("grandLitres").textContent = grand % 1 === 0 ? grand : grand.toFixed(2);
+  document.getElementById("grandAmount").textContent = "₹" + (grand * rate).toFixed(0);
+}
+
+function onRateChange() {
+  localStorage.setItem("milk_rate", document.getElementById("rateInput").value);
+  recalcAll();
+}
+
+function getRate() { return Number(document.getElementById("rateInput").value) || 0; }
+
+/* ─────────────────────────────────────────────
+   STATS BAR
+───────────────────────────────────────────── */
+function updateStats() {
+  const grandLitresEl = document.getElementById("grandLitres");
+  const grandAmountEl = document.getElementById("grandAmount");
+  if (!grandLitresEl) return;
+
+  document.getElementById("statTotal").textContent  = grandLitresEl.textContent;
+  document.getElementById("statAmount").textContent = grandAmountEl.textContent;
+  document.getElementById("statMembers").textContent = NAMES.length;
+
+  // active days = days with at least one entry
+  const data = getData(currentMonthIdx);
+  const activeDays = new Set();
+  Object.keys(data).forEach(k => { if (data[k]) activeDays.add(k.split("_")[1]); });
+  document.getElementById("statDays").textContent = activeDays.size;
+}
+
+/* ─────────────────────────────────────────────
+   AUTO SAVE
+───────────────────────────────────────────── */
+function autoSave(name, day, val) {
+  const d = getData(currentMonthIdx);
+  d[name+"_"+day] = val;
+  setData(currentMonthIdx, d);
+}
+
+/* ─────────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────────── */
+function saveData() {
+  localStorage.setItem("milk_rate", getRate());
+  toast("✅ Data Saved Successfully!");
+}
+
+function clearMonth() {
+  if (!confirm(`Clear all data for ${MONTHS[currentMonthIdx].name} ${currentYear}?`)) return;
+  localStorage.removeItem(storageKey(currentMonthIdx));
+  buildAll();
+  toast("🗑 Month data cleared.");
+}
+
+function downloadCSV() {
+  const mo = MONTHS[currentMonthIdx];
+  const rows = [];
+
+  // Header
+  const h = ["S.No","Name"];
+  for (let d=1; d<=mo.days; d++) h.push(d);
+  h.push("Total","Amount");
+  rows.push(h.join(","));
+
+  // Data
+  document.querySelectorAll("#tableBody tr:not(.grand-row)").forEach((tr, i) => {
+    const cells = tr.querySelectorAll("td");
+    const row = [];
+    cells.forEach((td, ci) => {
+      const inp = td.querySelector("input");
+      row.push(inp ? inp.value : td.textContent.replace(/,/g,";"));
+    });
+    rows.push(row.join(","));
+  });
+
+  // Grand
+  const gl = document.getElementById("grandLitres").textContent;
+  const ga = document.getElementById("grandAmount").textContent;
+  rows.push(`,,${",".repeat(mo.days)}GRAND TOTAL,${gl},"${ga}"`);
+
+  const blob = new Blob([rows.join("\n")], {type:"text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `Milk_${mo.name}_${currentYear}.csv`;
+  a.click();
+  toast("⬇ Download started!");
+}
+
+/* ─────────────────────────────────────────────
+   TOAST
+───────────────────────────────────────────── */
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+}
+
+/* ─────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────── */
+window.onload = function() {
+  // Set current month to today's month
+  const now = new Date();
+  currentMonthIdx = now.getMonth();
+  currentYear = now.getFullYear();
+
+  // Load saved rate
+  const savedRate = localStorage.getItem("milk_rate");
+  if (savedRate) document.getElementById("rateInput").value = savedRate;
+
+  buildAll();
+};
+</script>
+</body>
+</html>
